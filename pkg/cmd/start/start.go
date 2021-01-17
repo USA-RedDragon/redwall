@@ -44,6 +44,9 @@ func NewCommand() *cobra.Command {
 			ip6listener = iplistener.New(eventBus, ipv6, true)
 			go ip6listener.Start()
 
+			redwall = firewall.New(ipv4, ip4listener)
+			go redwall.Start()
+
 			if ddnsEnabled {
 				ip4CfDDNS = cloudflare.New(ipv4, false, ip4listener)
 				if ip4CfDDNS != nil {
@@ -59,9 +62,6 @@ func NewCommand() *cobra.Command {
 					klog.Warning("IPv6 Cloudflare DDNS failed to start")
 				}
 			}
-
-			redwall = firewall.New(ipv4, ip4listener)
-			go redwall.Start()
 
 			for {
 				c := make(chan int)
