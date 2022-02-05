@@ -15,10 +15,7 @@ func NewCommand() *cobra.Command {
 		Short: "Start the redwall daemon",
 		Run: func(c *cobra.Command, args []string) {
 			var ip4listener *iplistener.IPListener
-			var ip6listener *iplistener.IPListener
-
 			var ip4CfDDNS *cloudflare.CloudflareDDNS
-
 			var redwall *firewall.Firewall
 
 			eventBus := EventBus.New()
