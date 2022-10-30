@@ -1,6 +1,7 @@
 package cloudflare
 
 import (
+	"context"
 	"fmt"
 	"net"
 	"os"
@@ -25,7 +26,9 @@ type CloudflareDDNS struct {
 }
 
 func (c *CloudflareDDNS) getCurrentRecordValue() (net.IP, string) {
+	ctx := context.Background()
 	currentRecords, err := c.cfAPI.DNSRecords(
+		ctx,
 		c.zoneID,
 		cloudflare.DNSRecord{Name: c.cfRecord, Type: c.recordType},
 	)
@@ -45,9 +48,10 @@ func (c *CloudflareDDNS) getCurrentRecordValue() (net.IP, string) {
 }
 
 func (c *CloudflareDDNS) deleteRecord() {
+	ctx := context.Background()
 	_, currentRecordID := c.getCurrentRecordValue()
 	if currentRecordID != "" {
-		err := c.cfAPI.DeleteDNSRecord(c.zoneID, currentRecordID)
+		err := c.cfAPI.DeleteDNSRecord(ctx, c.zoneID, currentRecordID)
 		if err != nil {
 			klog.Error(err)
 		} else {
@@ -93,8 +97,9 @@ func (c *CloudflareDDNS) updateDNS(newIP net.IP) {
 }
 
 func (c *CloudflareDDNS) upsertIP(newRecord *cloudflare.DNSRecord, create bool) error {
+	ctx := context.Background()
 	if create {
-		rr, err := c.cfAPI.CreateDNSRecord(c.zoneID, *newRecord)
+		rr, err := c.cfAPI.CreateDNSRecord(ctx, c.zoneID, *newRecord)
 		if err != nil {
 			return err
 		}
@@ -102,7 +107,7 @@ func (c *CloudflareDDNS) upsertIP(newRecord *cloudflare.DNSRecord, create bool) 
 			klog.Error("Failed to create record: %v", rr.Response)
 		}
 	} else {
-		err := c.cfAPI.UpdateDNSRecord(c.zoneID, newRecord.ID, *newRecord)
+		err := c.cfAPI.UpdateDNSRecord(ctx, c.zoneID, newRecord.ID, *newRecord)
 		if err != nil {
 			return err
 		}
