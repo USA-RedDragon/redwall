@@ -1,0 +1,10 @@
+*_gen*.go
+redwall
+bin/
+coverage.txt
+cosign.key
+coverage.out
+artifacts/
+report.xml
+report.html
+*.log

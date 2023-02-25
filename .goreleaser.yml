@@ -1,0 +1,195 @@
+---
+project_name: redwall
+
+release:
+  extra_files:
+    - glob: ./LICENSE
+  github:
+    owner: USA-RedDragon
+    name: redwall
+
+dockers:
+  - image_templates:
+      - "ghcr.io/usa-reddragon/redwall:{{ .Tag }}-amd64"
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}-amd64"
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}.{{ .Minor }}-amd64"
+      - "ghcr.io/usa-reddragon/redwall:latest-amd64"
+      - "docker.io/jamcswain/redwall:{{ .Tag }}-amd64"
+      - "docker.io/jamcswain/redwall:v{{ .Major }}-amd64"
+      - "docker.io/jamcswain/redwall:v{{ .Major }}.{{ .Minor }}-amd64"
+      - "docker.io/jamcswain/redwall:latest-amd64"
+    use: buildx
+    goarch: arm64
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - --label=org.opencontainers.image.licenses=MIT
+      - --label=org.opencontainers.image.url=https://github.com/USA-RedDragon/{{ .ProjectName }}
+      - --label=org.opencontainers.image.source=https://github.com/USA-RedDragon/{{ .ProjectName }}
+      - "--platform=linux/amd64"
+  - image_templates:
+      - "ghcr.io/usa-reddragon/redwall:{{ .Tag }}-armv7"
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}-armv7"
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}.{{ .Minor }}-armv7"
+      - "ghcr.io/usa-reddragon/redwall:latest-armv7"
+      - "docker.io/jamcswain/redwall:{{ .Tag }}-armv7"
+      - "docker.io/jamcswain/redwall:v{{ .Major }}-armv7"
+      - "docker.io/jamcswain/redwall:v{{ .Major }}.{{ .Minor }}-armv7"
+      - "docker.io/jamcswain/redwall:latest-armv7"
+    use: buildx
+    goarch: arm
+    goarm: "7"
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - --label=org.opencontainers.image.licenses=MIT
+      - --label=org.opencontainers.image.url=https://github.com/USA-RedDragon/{{ .ProjectName }}
+      - --label=org.opencontainers.image.source=https://github.com/USA-RedDragon/{{ .ProjectName }}
+      - "--platform=linux/arm/v7"
+  - image_templates:
+      - "ghcr.io/usa-reddragon/redwall:{{ .Tag }}-armv6"
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}-armv6"
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}.{{ .Minor }}-armv6"
+      - "ghcr.io/usa-reddragon/redwall:latest-armv6"
+      - "docker.io/jamcswain/redwall:{{ .Tag }}-armv6"
+      - "docker.io/jamcswain/redwall:v{{ .Major }}-armv6"
+      - "docker.io/jamcswain/redwall:v{{ .Major }}.{{ .Minor }}-armv6"
+      - "docker.io/jamcswain/redwall:latest-armv6"
+    use: buildx
+    goarch: arm
+    goarm: "6"
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - --label=org.opencontainers.image.licenses=MIT
+      - --label=org.opencontainers.image.url=https://github.com/USA-RedDragon/{{ .ProjectName }}
+      - --label=org.opencontainers.image.source=https://github.com/USA-RedDragon/{{ .ProjectName }}
+      - "--platform=linux/arm/v6"
+  - image_templates:
+      - "ghcr.io/usa-reddragon/redwall:{{ .Tag }}-arm64"
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}-arm64"
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}.{{ .Minor }}-arm64"
+      - "ghcr.io/usa-reddragon/redwall:latest-arm64"
+      - "docker.io/jamcswain/redwall:{{ .Tag }}-arm64"
+      - "docker.io/jamcswain/redwall:v{{ .Major }}-arm64"
+      - "docker.io/jamcswain/redwall:v{{ .Major }}.{{ .Minor }}-arm64"
+      - "docker.io/jamcswain/redwall:latest-arm64"
+    use: buildx
+    goarch: arm64
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - --label=org.opencontainers.image.licenses=MIT
+      - --label=org.opencontainers.image.url=https://github.com/USA-RedDragon/{{ .ProjectName }}
+      - --label=org.opencontainers.image.source=https://github.com/USA-RedDragon/{{ .ProjectName }}
+      - "--platform=linux/arm64"
+
+docker_manifests:
+  - name_template: "ghcr.io/usa-reddragon/redwall:{{ .Tag }}"
+    image_templates:
+      - "ghcr.io/usa-reddragon/redwall:{{ .Tag }}-amd64"
+      - "ghcr.io/usa-reddragon/redwall:{{ .Tag }}-arm64"
+      - "ghcr.io/usa-reddragon/redwall:{{ .Tag }}-armv6"
+      - "ghcr.io/usa-reddragon/redwall:{{ .Tag }}-armv7"
+  - name_template: "ghcr.io/usa-reddragon/redwall:v{{ .Major }}"
+    image_templates:
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}-amd64"
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}-arm64"
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}-armv6"
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}-armv7"
+  - name_template: "ghcr.io/usa-reddragon/redwall:v{{ .Major }}.{{ .Minor }}"
+    image_templates:
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}.{{ .Minor }}-amd64"
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}.{{ .Minor }}-arm64"
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}.{{ .Minor }}-armv6"
+      - "ghcr.io/usa-reddragon/redwall:v{{ .Major }}.{{ .Minor }}-armv7"
+  - name_template: "ghcr.io/usa-reddragon/redwall:latest"
+    image_templates:
+      - "ghcr.io/usa-reddragon/redwall:latest-amd64"
+      - "ghcr.io/usa-reddragon/redwall:latest-arm64"
+      - "ghcr.io/usa-reddragon/redwall:latest-armv6"
+      - "ghcr.io/usa-reddragon/redwall:latest-armv7"
+  - name_template: "docker.io/jamcswain/redwall:{{ .Tag }}"
+    image_templates:
+      - "docker.io/jamcswain/redwall:{{ .Tag }}-amd64"
+      - "docker.io/jamcswain/redwall:{{ .Tag }}-arm64"
+      - "docker.io/jamcswain/redwall:{{ .Tag }}-armv6"
+      - "docker.io/jamcswain/redwall:{{ .Tag }}-armv7"
+  - name_template: "docker.io/jamcswain/redwall:v{{ .Major }}"
+    image_templates:
+      - "docker.io/jamcswain/redwall:v{{ .Major }}-amd64"
+      - "docker.io/jamcswain/redwall:v{{ .Major }}-arm64"
+      - "docker.io/jamcswain/redwall:v{{ .Major }}-armv6"
+      - "docker.io/jamcswain/redwall:v{{ .Major }}-armv7"
+  - name_template: "docker.io/jamcswain/redwall:v{{ .Major }}.{{ .Minor }}"
+    image_templates:
+      - "docker.io/jamcswain/redwall:v{{ .Major }}.{{ .Minor }}-amd64"
+      - "docker.io/jamcswain/redwall:v{{ .Major }}.{{ .Minor }}-arm64"
+      - "docker.io/jamcswain/redwall:v{{ .Major }}.{{ .Minor }}-armv6"
+      - "docker.io/jamcswain/redwall:v{{ .Major }}.{{ .Minor }}-armv7"
+  - name_template: "docker.io/jamcswain/redwall:latest"
+    image_templates:
+      - "docker.io/jamcswain/redwall:latest-amd64"
+      - "docker.io/jamcswain/redwall:latest-arm64"
+      - "docker.io/jamcswain/redwall:latest-armv6"
+      - "docker.io/jamcswain/redwall:latest-armv7"
+
+builds:
+  - main: .
+    binary: redwall
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm
+      - arm64
+      - riscv64
+    goarm:
+      - "6"
+      - "7"
+    ignore:
+      - goarch: arm
+        goos: windows
+      - goarch: riscv64
+        goos: windows
+      - goarch: arm
+        goos: darwin
+      - goarch: riscv64
+        goos: darwin
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+
+signs:
+  - cmd: cosign
+    stdin: "{{ .Env.COSIGN_PASSWORD}}"
+    args:
+      [
+        "sign-blob",
+        "--key=/tmp/cosign.key",
+        "--output=${signature}",
+        "${artifact}",
+      ]
+    artifacts: all
+docker_signs:
+  - artifacts: all
+    stdin: "{{ .Env.COSIGN_PASSWORD}}"
+    args: ["sign", "--key=/tmp/cosign.key", "${artifact}"]
+
+milestones:
+  - close: true
