@@ -27,13 +27,18 @@ type CloudflareDDNS struct {
 
 func (c *CloudflareDDNS) getCurrentRecordValue() (net.IP, string) {
 	ctx := context.Background()
-	currentRecords, err := c.cfAPI.DNSRecords(
+	currentRecords, resultInfo, err := c.cfAPI.ListDNSRecords(
 		ctx,
-		c.zoneID,
-		cloudflare.DNSRecord{Name: c.cfRecord, Type: c.recordType},
+		cloudflare.ZoneIdentifier(c.zoneID),
+		cloudflare.ListDNSRecordsParams{Name: c.cfRecord, Type: c.recordType},
 	)
 	if err != nil {
 		klog.Error(err)
+	}
+
+	if resultInfo.TotalPages > 1 {
+		klog.Errorf("More than one page of results returned for %s records.", c.recordType)
+		return net.ParseIP(currentRecords[0].Content), currentRecords[0].ID
 	}
 
 	if len(currentRecords) > 1 {
@@ -51,7 +56,7 @@ func (c *CloudflareDDNS) deleteRecord() {
 	ctx := context.Background()
 	_, currentRecordID := c.getCurrentRecordValue()
 	if currentRecordID != "" {
-		err := c.cfAPI.DeleteDNSRecord(ctx, c.zoneID, currentRecordID)
+		err := c.cfAPI.DeleteDNSRecord(ctx, cloudflare.ZoneIdentifier(c.zoneID), currentRecordID)
 		if err != nil {
 			klog.Error(err)
 		} else {
@@ -99,7 +104,13 @@ func (c *CloudflareDDNS) updateDNS(newIP net.IP) {
 func (c *CloudflareDDNS) upsertIP(newRecord *cloudflare.DNSRecord, create bool) error {
 	ctx := context.Background()
 	if create {
-		rr, err := c.cfAPI.CreateDNSRecord(ctx, c.zoneID, *newRecord)
+		params := cloudflare.CreateDNSRecordParams{
+			Name:    newRecord.Name,
+			Type:    newRecord.Type,
+			Content: newRecord.Content,
+			TTL:     newRecord.TTL,
+		}
+		rr, err := c.cfAPI.CreateDNSRecord(ctx, cloudflare.ZoneIdentifier(c.zoneID), params)
 		if err != nil {
 			return err
 		}
@@ -107,7 +118,13 @@ func (c *CloudflareDDNS) upsertIP(newRecord *cloudflare.DNSRecord, create bool) 
 			klog.Error("Failed to create record: %v", rr.Response)
 		}
 	} else {
-		err := c.cfAPI.UpdateDNSRecord(ctx, c.zoneID, newRecord.ID, *newRecord)
+		params := cloudflare.UpdateDNSRecordParams{
+			Name:    newRecord.Name,
+			Type:    newRecord.Type,
+			Content: newRecord.Content,
+			TTL:     newRecord.TTL,
+		}
+		err := c.cfAPI.UpdateDNSRecord(ctx, cloudflare.ZoneIdentifier(c.zoneID), params)
 		if err != nil {
 			return err
 		}
