@@ -113,12 +113,6 @@ jobs:
         with:
           go-version-file: go.mod
 
-      - name: Copy built frontend
-        uses: actions/download-artifact@v3
-        with:
-          name: frontend
-          path: internal/http/frontend/dist
-
       - run: go generate ./...
 
       - name: Unit tests
