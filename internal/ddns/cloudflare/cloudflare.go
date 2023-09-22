@@ -110,12 +110,9 @@ func (c *CloudflareDDNS) upsertIP(newRecord *cloudflare.DNSRecord, create bool) 
 			Content: newRecord.Content,
 			TTL:     newRecord.TTL,
 		}
-		rr, err := c.cfAPI.CreateDNSRecord(ctx, cloudflare.ZoneIdentifier(c.zoneID), params)
+		_, err := c.cfAPI.CreateDNSRecord(ctx, cloudflare.ZoneIdentifier(c.zoneID), params)
 		if err != nil {
 			return err
-		}
-		if !rr.Response.Success {
-			klog.Error("Failed to create record: %v", rr.Response)
 		}
 	} else {
 		params := cloudflare.UpdateDNSRecordParams{
@@ -124,7 +121,7 @@ func (c *CloudflareDDNS) upsertIP(newRecord *cloudflare.DNSRecord, create bool) 
 			Content: newRecord.Content,
 			TTL:     newRecord.TTL,
 		}
-		err := c.cfAPI.UpdateDNSRecord(ctx, cloudflare.ZoneIdentifier(c.zoneID), params)
+		_, err := c.cfAPI.UpdateDNSRecord(ctx, cloudflare.ZoneIdentifier(c.zoneID), params)
 		if err != nil {
 			return err
 		}
