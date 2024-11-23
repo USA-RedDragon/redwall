@@ -1,6 +1,6 @@
 module github.com/USA-RedDragon/redwall
 
-go 1.23.2
+go 1.23.3
 
 require (
 	github.com/asaskevich/EventBus v0.0.0-20200907212545-49d423059eef
