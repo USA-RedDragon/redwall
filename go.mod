@@ -5,7 +5,7 @@ go 1.24.0
 require (
 	github.com/asaskevich/EventBus v0.0.0-20200907212545-49d423059eef
 	github.com/cloudflare/cloudflare-go v0.115.0
-	github.com/spf13/cobra v1.9.0
+	github.com/spf13/cobra v1.9.1
 	k8s.io/klog/v2 v2.130.1
 )
 
