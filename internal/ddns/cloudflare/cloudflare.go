@@ -9,7 +9,7 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/USA-RedDragon/redwall/internal/iplistener"
-	"github.com/cloudflare/cloudflare-go"
+	"github.com/cloudflare/cloudflare-go/v5"
 )
 
 type CloudflareDDNS struct {
